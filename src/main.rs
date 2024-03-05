@@ -12,7 +12,7 @@ fn main() {
     match command.as_str() {
         "add" => {
             let mut input: String = String::new();
-            print!("Enter the goal: ");
+            print!("Enter the goal to insert: ");
             std::io::stdout().flush().expect("failed to flush buffer");
             std::io::stdin().read_line(&mut input).expect("failed to read input");
             match todo_funcs::add(&input) {
@@ -21,10 +21,20 @@ fn main() {
             }
         },
         "remove" => {
-            todo_funcs::remove()
+            let mut input: String = String::new();
+            print!("Enter the goal to remove: ");
+            std::io::stdout().flush().expect("failed to flush buffer");
+            std::io::stdin().read_line(&mut input).expect("failed to read input");
+            match todo_funcs::remove(&input) {
+                Ok(_) => println!("Successfully removed from todo!"),
+                Err(e) => eprintln!("Failed to remove from todo: {}", e)
+            }
         },
         "list" => {
-            todo_funcs::list()
+            match todo_funcs::list() {
+                Ok(lines) => println!("{}", lines),
+                Err(e) => eprintln!("Failed to remove from todo: {}", e)
+            }
         },
         _ => println!("invalid command"),
     }
